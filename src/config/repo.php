@@ -1,0 +1,4 @@
+<?php
+return [
+    'query' => 'filter',
+];
