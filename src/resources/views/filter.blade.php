@@ -9,7 +9,7 @@
             <form method="get" action="" class="form-inline my-2 my-lg-0">
                 {{ $repository->toHtml() }}
                 <div class="input-group mb-1">
-                    <button class="btn btn-primary mr-2" type="submit">
+                    <button class="btn btn-ferroli mr-2" type="submit">
                         <i class="fa fa-search"></i>
                         <span>@lang('repo::messages.search_button')</span>
                     </button>

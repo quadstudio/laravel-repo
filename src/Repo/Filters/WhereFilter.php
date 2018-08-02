@@ -10,6 +10,7 @@ abstract class WhereFilter extends SelectFilter
 
     function apply($builder, RepositoryInterface $repository)
     {
+
         if ($this->canTrack() && !is_null($this->get($this->name()))) {
             if ($this->multiple === true && is_array($this->get($this->name()))) {
                 foreach ($this->get($this->name()) as $key) {

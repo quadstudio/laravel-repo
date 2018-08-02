@@ -43,8 +43,6 @@ abstract class SearchFilter extends FormFilter
 
     function apply($builder, RepositoryInterface $repository)
     {
-        //dump($this);
-        //dd($this->canTrack());
         if ($this->canTrack()) {
             if (!empty($this->columns())) {
                 $words = $this->split($this->get($this->search));

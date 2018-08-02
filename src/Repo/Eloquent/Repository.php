@@ -146,8 +146,16 @@ abstract class Repository implements RepositoryInterface, Filterable
 
         $this->applyFilters();
 
-        //dd($this->getModel()->toSql());
+
         return $this->getModel()->get($columns);
+    }
+
+    public function toSql(){
+        return $this->getModel()->toSql();
+    }
+
+    public function getBindings(){
+        return $this->getModel()->getBindings();
     }
 
     public function orderBy(array $columns = []){

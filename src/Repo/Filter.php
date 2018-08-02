@@ -85,6 +85,7 @@ abstract class Filter implements FilterInterface
 
     protected function after($builder, RepositoryInterface $repository)
     {
+
         return $builder;
     }
 

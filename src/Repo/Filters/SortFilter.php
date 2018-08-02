@@ -43,8 +43,8 @@ abstract class SortFilter extends SelectFilter
         $param = $this->get($this->name());
 
         if (!is_null($param)) {
-            if (strpos($param, config('shop.delimiter')) !== false) {
-                list($field, $dir) = explode(config('shop.delimiter'), $param);
+            if (strpos($param, config('site.delimiter')) !== false) {
+                list($field, $dir) = explode(config('site.delimiter'), $param);
                 $dir = in_array($dir, ['asc', 'desc']) ? $dir : 'asc';
                 if (key_exists($field, ($columns = $this->columns()))) {
                     return [
