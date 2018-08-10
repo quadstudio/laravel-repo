@@ -14,7 +14,9 @@ abstract class WhereFilter extends SelectFilter
         if ($this->canTrack() && !is_null($this->get($this->name()))) {
             if ($this->multiple === true && is_array($this->get($this->name()))) {
                 foreach ($this->get($this->name()) as $key) {
+
                     $builder = $builder->orWhere(DB::raw($this->column()), $this->operator(), $key);
+
                 }
             } else {
                 $builder = $builder->where(DB::raw($this->column()), $this->operator(), $this->get($this->name()));

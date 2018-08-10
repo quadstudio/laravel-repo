@@ -131,4 +131,16 @@ abstract class SearchFilter extends FormFilter
         ];
     }
 
+    protected function attributes()
+    {
+        $attributes = parent::attributes();
+        if ($this->tooltip() !== false) {
+//            $attributes->put('data-toggle', 'tooltip');
+//            $attributes->put('data-placement', 'top');
+            $attributes->put('title', (string)$this->tooltip());
+        }
+
+        return $attributes;
+    }
+
 }

@@ -152,7 +152,7 @@ final class Tag
      */
     public function putAttribute($key, $value)
     {
-        if (in_array($key, $this->config["attributes"]) || substr($key, 0, 4) == 'data-') {
+        if (in_array($key, $this->config["attributes"]) || substr($key, 0, 5) == 'data-') {
             $this->attributes[$key] = $value;
         }
         return $this;

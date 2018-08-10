@@ -3,13 +3,12 @@
 namespace QuadStudio\Repo\Eloquent;
 
 use Illuminate\Container\Container as Application;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use QuadStudio\Repo\Contracts\RepositoryInterface;
 use QuadStudio\Repo\Contracts\Filterable;
-use Quadstudio\Repo\Exceptions\RepositoryException;
 use QuadStudio\Repo\Contracts\FilterInterface;
+use QuadStudio\Repo\Contracts\RepositoryInterface;
+use Quadstudio\Repo\Exceptions\RepositoryException;
 use QuadStudio\Repo\Filters\FormFilter;
 
 
@@ -44,7 +43,8 @@ abstract class Repository implements RepositoryInterface, Filterable
      * @var bool
      */
     protected $skipFilter = false;
-    private $appliedFilters = [];
+
+    private $trackedFilters = [];
 
     /**
      * @param Application $app
@@ -150,28 +150,6 @@ abstract class Repository implements RepositoryInterface, Filterable
         return $this->getModel()->get($columns);
     }
 
-    public function toSql(){
-        return $this->getModel()->toSql();
-    }
-
-    public function getBindings(){
-        return $this->getModel()->getBindings();
-    }
-
-    public function orderBy(array $columns = []){
-        if(!empty($columns)){
-
-            foreach ($columns as $column_name => $direction){
-                if(is_int($column_name)){
-                    $column_name = $direction;
-                    $direction = 'ASC';
-                }
-                $this->model = $this->getModel()->orderBy($column_name, $direction);
-            }
-        }
-        return $this;
-    }
-
     /**
      * Apply filters
      *
@@ -201,7 +179,8 @@ abstract class Repository implements RepositoryInterface, Filterable
     public function pushTracked()
     {
         if ($this->isTracked === true) {
-            foreach ($this->track() as $filterClass) {
+            $filters = array_unique(array_merge($this->track(), $this->trackedFilters));
+            foreach ($filters as $filterClass) {
                 if (!($filter = $this->app->make($filterClass)) instanceof FilterInterface) {
                     throw new \Exception(trans('repo::exception.instance', ['class' => $filterClass, 'instance' => FilterInterface::class]));
                 }
@@ -246,7 +225,39 @@ abstract class Repository implements RepositoryInterface, Filterable
     public function applyFilter(FilterInterface $filter)
     {
         $this->model = $filter->apply($this->model, $this);
+
         return $this;
+    }
+
+    public function toSql()
+    {
+        return $this->getModel()->toSql();
+    }
+
+    public function getBindings()
+    {
+        return $this->getModel()->getBindings();
+    }
+
+    public function orderBy(array $columns = [])
+    {
+        if (!empty($columns)) {
+
+            foreach ($columns as $column_name => $direction) {
+                if (is_int($column_name)) {
+                    $column_name = $direction;
+                    $direction = 'ASC';
+                }
+                $this->model = $this->getModel()->orderBy($column_name, $direction);
+            }
+        }
+
+        return $this;
+    }
+
+    public function pushTrackFilter($filter)
+    {
+        $this->trackedFilters[] = $filter;
     }
 
     /**
@@ -277,6 +288,13 @@ abstract class Repository implements RepositoryInterface, Filterable
         return $this->getModel()->chunk($chunk, $callback);
     }
 
+    public function count()
+    {
+        $this->applyFilters();
+
+        return $this->getModel()->count();
+    }
+
     /**
      * @param int $perPage
      * @param array $columns
@@ -286,7 +304,8 @@ abstract class Repository implements RepositoryInterface, Filterable
     {
         $this->applyFilters();
         //dump($this->getModel());
-        //dump($this->getModel()->getBindings());
+//        dump($this->getModel()->getBindings());
+//        dd($this->getModel()->toSql());
 
         return $this->getModel()->paginate($perPage, $columns, $pageName, $page)->appends(request()->except(['page', '_token']));
     }
@@ -332,10 +351,8 @@ abstract class Repository implements RepositoryInterface, Filterable
 
     public function toHtml()
     {
-
         foreach ($this->getFilters() as $filter) {
-
-            if (in_array(get_class($filter), $this->track()) && $filter instanceof FormFilter) {
+            if ((in_array(get_class($filter), $this->track()) || in_array(get_class($filter), $this->trackedFilters)) && $filter instanceof FormFilter) {
                 $filter->render();
             }
         }
@@ -344,7 +361,7 @@ abstract class Repository implements RepositoryInterface, Filterable
     public function canDraw()
     {
         foreach ($this->getFilters() as $filter) {
-            if (in_array(get_class($filter), $this->track()) && $filter instanceof FormFilter && $filter->canRender()) {
+            if ((in_array(get_class($filter), $this->track()) || in_array(get_class($filter), $this->trackedFilters)) && $filter instanceof FormFilter && $filter->canRender()) {
                 return true;
             }
         }

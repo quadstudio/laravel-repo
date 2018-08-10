@@ -78,6 +78,11 @@ abstract class FormFilter extends Filter implements Renderable
         return false;
     }
 
+    protected function tooltip()
+    {
+        return false;
+    }
+
 
     protected function attributes()
     {
