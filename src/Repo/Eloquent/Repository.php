@@ -303,9 +303,13 @@ abstract class Repository implements RepositoryInterface, Filterable
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $this->applyFilters();
-        //dump($this->getModel());
-//        dump($this->getModel()->getBindings());
-//        dd($this->getModel()->toSql());
+        if (request()->has('sql')) {
+            //dump($this->getModel());
+            dump($this->getModel()->getBindings());
+            dd($this->getModel()->toSql());
+        }
+
+
 
         return $this->getModel()->paginate($perPage, $columns, $pageName, $page)->appends(request()->except(['page', '_token']));
     }

@@ -44,7 +44,9 @@ abstract class SelectFilter extends FormFilter
         $attributes = [
             'value' => $value,
         ];
-        if ($this->has($this->name()) && $this->get($this->name()) == $value) {
+        if ($this->has($this->name()) && $this->filled($this->name()) && $this->get($this->name()) == $value) {
+            $attributes[] = 'selected';
+        } elseif(!empty($this->defaults()) && in_array($value, $this->defaults(), true)){
             $attributes[] = 'selected';
         }
 

@@ -128,7 +128,7 @@ abstract class Filter implements FilterInterface
     }
 
     /**
-     * Проверяет, заполнено ли значение для параметрв запроса $key
+     * Проверяет, имеется ли параметр запроса $key
      *
      * @param $key
      * @return bool
@@ -136,6 +136,17 @@ abstract class Filter implements FilterInterface
     public function has($key)
     {
         return request()->has($this->query . '.' . $key);
+    }
+
+    /**
+     * Проверяет, заполнено ли значение для параметра запроса $key
+     *
+     * @param $key
+     * @return bool
+     */
+    public function filled($key)
+    {
+        return request()->filled($this->query . '.' . $key);
     }
 
     /**
