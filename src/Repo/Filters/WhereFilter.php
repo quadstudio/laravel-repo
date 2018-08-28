@@ -3,7 +3,7 @@
 namespace QuadStudio\Repo\Filters;
 
 use QuadStudio\Repo\Contracts\RepositoryInterface;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 abstract class WhereFilter extends SelectFilter
 {
