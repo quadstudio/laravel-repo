@@ -255,9 +255,14 @@ abstract class Repository implements RepositoryInterface, Filterable
         return $this;
     }
 
+    /**
+     * @param $filter
+     * @return $this
+     */
     public function pushTrackFilter($filter)
     {
         $this->trackedFilters[] = $filter;
+        return $this;
     }
 
     /**
