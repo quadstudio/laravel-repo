@@ -12,6 +12,7 @@ abstract class CheckboxFilter extends FormFilter
      */
     public function tag(): Tag
     {
+
         if (is_null($this->tag)) {
 
             $attributes = $this->attributes();
@@ -22,7 +23,6 @@ abstract class CheckboxFilter extends FormFilter
             if ($this->has($this->name())) {
                 $attributes[] = 'checked';
             }
-
 
             $this->tag = new Tag('checkbox', [
                 'attributes' => $attributes

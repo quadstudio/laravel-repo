@@ -13,11 +13,15 @@ abstract class DateFilter extends FormFilter
      */
     protected $search = 'date';
 
+    protected function operator(){
+        return '=';
+    }
+
 
     function apply($builder, RepositoryInterface $repository)
     {
         if ($this->canTrack() && $this->filled($this->search)) {
-            $builder = $builder->where($this->column(), $this->get($this->search));
+            $builder = $builder->where($this->column(), $this->operator(), $this->get($this->search));
         }
 
         return $builder;

@@ -41,6 +41,7 @@ abstract class SelectFilter extends FormFilter
      */
     protected function getOption($value, $content)
     {
+
         $attributes = [
             'value' => $value,
         ];

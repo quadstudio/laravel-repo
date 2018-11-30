@@ -54,15 +54,13 @@ return [
     ],
     // input
     'button'   => [
-        'tag'        => 'input',
-        'closed'     => false,
+        'closed'     => true,
         'attributes' => [
             'autofocus',
             'defaultValue',
             'disabled',
             'form',
             'name',
-            'type' => 'button',
             'value',
         ],
     ],
@@ -547,12 +545,20 @@ return [
 //    'legend'   => [
 //        'only' => ['fieldset']
 //    ],
-//    'li'       => [
-//        'attributes' => [
-//            'value'
-//        ],
-//        'only' => ['ol', 'ul']
-//    ],
+    'ul'       => [
+        'closed'     => true,
+        'attributes' => [],
+        'contains' => [
+            'li'
+        ],
+    ],
+    'li'       => [
+        'closed'     => true,
+        'attributes' => [
+            'value'
+        ],
+        'only' => ['ol', 'ul']
+    ],
 //    'link'     => [
 //        '_children' => [
 //            'favicon' => [
@@ -648,11 +654,7 @@ return [
 //        'contains' => ['th', 'td']
 //    ],
 
-//    'ul'       => [
-//        'contains' => [
-//            'li'
-//        ],
-//    ],
+
 //    'ol'       => [
 //        'contains' => [
 //            'li'

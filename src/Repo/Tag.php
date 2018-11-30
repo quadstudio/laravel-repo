@@ -175,6 +175,7 @@ final class Tag
      */
     private function _collectContent(&$result, $content)
     {
+
         if (is_array($content)) {
             foreach ($content as $value) {
                 $this->_collectContent($result, $value);
@@ -182,6 +183,7 @@ final class Tag
         } else {
             $result .= $content;
         }
+
     }
 
     /**
