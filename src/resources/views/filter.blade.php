@@ -6,7 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarFilter">
-            <form method="get" action="" class="form-inline my-2 my-lg-0">
+            <form method="get" action="" id="repository-form" class="form-inline my-2 my-lg-0">
                 {{ $repository->toHtml() }}
                 <div class="input-group mb-1">
                     <button class="btn btn-ferroli mr-1" type="submit">
