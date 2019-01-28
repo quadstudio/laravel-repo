@@ -21,7 +21,7 @@ abstract class DateFilter extends FormFilter
     function apply($builder, RepositoryInterface $repository)
     {
         if ($this->canTrack() && $this->filled($this->search)) {
-            $builder = $builder->where($this->column(), $this->operator(), $this->get($this->search));
+            $builder = $builder->where($this->column(), $this->operator(), date('Y-m-d', strtotime($this->get($this->search))));
         }
 
         return $builder;
@@ -42,7 +42,7 @@ abstract class DateFilter extends FormFilter
             if ($this->has($this->name()) && $this->get($this->name()) != "") {
                 $attributes['value'] = $this->get($this->name());
             }
-            $this->tag = new Tag('date', [
+            $this->tag = new Tag('text', [
                 'attributes' => $attributes,
             ]);
         }
