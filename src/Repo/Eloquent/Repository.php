@@ -3,6 +3,7 @@
 namespace QuadStudio\Repo\Eloquent;
 
 use Illuminate\Container\Container as Application;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use QuadStudio\Repo\Contracts\Filterable;
@@ -73,7 +74,7 @@ abstract class Repository implements RepositoryInterface, Filterable
     }
 
     /**
-     * @return Model
+     * @return Builder
      * @throws RepositoryException
      */
     public function getModel()
@@ -316,7 +317,9 @@ abstract class Repository implements RepositoryInterface, Filterable
 
 
 
-        return $this->getModel()->paginate($perPage, $columns, $pageName, $page)->appends(request()->except(['page', '_token']));
+        return $this->getModel()
+            ->paginate($perPage, $columns, $pageName, $page)
+            ->appends(request()->except(['page', '_token']));
     }
 
     /**

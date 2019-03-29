@@ -13,11 +13,6 @@ abstract class DateFilter extends FormFilter
      */
     protected $search = 'date';
 
-    protected function operator(){
-        return '=';
-    }
-
-
     function apply($builder, RepositoryInterface $repository)
     {
         if ($this->canTrack() && $this->filled($this->search)) {
@@ -32,6 +27,11 @@ abstract class DateFilter extends FormFilter
      */
     abstract function column();
 
+    protected function operator()
+    {
+        return '=';
+    }
+
     /**
      * @return Tag
      */
@@ -41,6 +41,9 @@ abstract class DateFilter extends FormFilter
             $attributes = $this->attributes();
             if ($this->has($this->name()) && $this->get($this->name()) != "") {
                 $attributes['value'] = $this->get($this->name());
+            }
+            if (mb_strlen($this->placeholder(), 'UTF-8') > 0) {
+                $attributes['placeholder'] = $this->placeholder();
             }
             $this->tag = new Tag('text', [
                 'attributes' => $attributes,
@@ -56,6 +59,14 @@ abstract class DateFilter extends FormFilter
     public function name(): string
     {
         return $this->search;
+    }
+
+    /**
+     * @return string
+     */
+    protected function placeholder()
+    {
+        return '';
     }
 
     /**
