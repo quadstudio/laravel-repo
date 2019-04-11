@@ -47,8 +47,8 @@ abstract class BooleanFilter extends SelectFilter
     {
         $options = [
             ''  => trans('repo::messages.select'),
-            '0' => trans('repo::messages.no'),
             '1' => trans('repo::messages.yes'),
+            '0' => trans('repo::messages.no'),
         ];
 
         return $options;

@@ -2,6 +2,7 @@
 
 namespace QuadStudio\Repo\Filters;
 
+use Illuminate\Support\Facades\DB;
 use QuadStudio\Repo\Contracts\RepositoryInterface;
 use QuadStudio\Repo\Tag;
 
@@ -16,7 +17,7 @@ abstract class DateFilter extends FormFilter
     function apply($builder, RepositoryInterface $repository)
     {
         if ($this->canTrack() && $this->filled($this->search)) {
-            $builder = $builder->where($this->column(), $this->operator(), date('Y-m-d', strtotime($this->get($this->search))));
+            $builder = $builder->where(DB::raw('DATE(' . $this->column() . ')'), $this->operator(), date('Y-m-d', strtotime($this->get($this->search))));
         }
 
         return $builder;
