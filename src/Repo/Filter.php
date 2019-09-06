@@ -78,11 +78,23 @@ abstract class Filter implements FilterInterface
         return $this->tracked === true && $this->hasKeys() && ($this->filled === false || $this->hasValues());
     }
 
+	/**
+	 * @param $builder
+	 * @param RepositoryInterface $repository
+	 *
+	 * @return mixed
+	 */
     protected function before($builder, RepositoryInterface $repository)
     {
         return $builder;
     }
 
+	/**
+	 * @param $builder
+	 * @param RepositoryInterface $repository
+	 *
+	 * @return mixed
+	 */
     protected function after($builder, RepositoryInterface $repository)
     {
 
